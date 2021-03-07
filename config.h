@@ -76,7 +76,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *termcmd[]  = { "alacritty" };
 static const char *dmenucmd[] = { "dmenu_run", "-fn", "unifont:size=11", "-m", dmenumon, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 
-static const char script_file[] = "/home/hasan/scripts/hstatus &";
+static const char script_file[] = "~/scripts/hstatus &";
 
 static const char audio_device_index[] = { "1" };
 
