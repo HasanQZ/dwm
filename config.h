@@ -36,7 +36,7 @@ static const char *colors[][3]      = {
 
 // command to run on startup
 /* tagging */
-static const char *tags[] = { "I", "II", "III", "IV", "V", "VII", "VIII", "IX" }; 
+static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" }; 
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -99,7 +99,10 @@ static Key keys[] = {
 	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
 
 	{ MODKEY,                       XK_g,	   togglegaps,	   {0} },
+
 	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
+    { MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("firefox -private-window") },
+
 	{ MODKEY,                       XK_p,      spawn,          SHCMD("pcmanfm") },
 	{ MODKEY,                       XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd} },
