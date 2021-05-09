@@ -1,4 +1,4 @@
-# custom-dwm
+# dwm
 
 My custom build of dwm, which includes patches listed below and optimized keybinds.
 
