@@ -17,7 +17,7 @@ static const unsigned int user_bh   = 17;       /* 0 means automatic bar height 
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char dmenufont[] = "Jetbrains Mono:size=12";
+static const char dmenufont[] = "JetBrains Mono:size=12";
 static const char *fonts[]          = { dmenufont,
                                            "Symbols Nerd Font:size=14:antialias=true:autohint=true"};
 
@@ -36,7 +36,7 @@ static const char *colors[][3]      = {
 
 // command to run on startup
 /* tagging */
-static const char *tags[] = { "I", "II", "III", "IV", "V", "VI" }; 
+static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}; 
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -56,7 +56,7 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[T]",      tile },    /* first entry is default */
-	{ "[F]",     NULL },    /* no layout function means floating behavior */
+	{ "[F]",      NULL },    /* no layout function means floating behavior */
 };
 
 /* key definitions */
