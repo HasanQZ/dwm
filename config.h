@@ -30,8 +30,8 @@ static const char *colors[][3]      = {
 	/*               fg         bg         border   */
     //[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
     //[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-	[SchemeNorm] = { "#ffffff", "#000000", "#000000" }, 
-	[SchemeSel]  = { "#ffffff", "#000000", "#ffffff" },
+	[SchemeNorm] = { "#ffffff", "#000000", "#2e2e2e" }, 
+	[SchemeSel]  = { "#ffffff", "#2e2e2e", "#ffffff" },
 };
 
 // command to run on startup
@@ -45,7 +45,6 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -76,7 +75,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *termcmd[]  = { "alacritty" };
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 
-static const char script_file[] = "~/scripts/hstatus &";
+static const char script_file[] = "echo lol &";
 
 static const char *upvol[]   = { "/usr/bin/amixer", "sset", "'Master'", "5%+",     NULL };
 static const char *downvol[] = { "/usr/bin/amixer", "sset", "'Master'", "5%-",     NULL };
@@ -100,6 +99,9 @@ static Key keys[] = {
 
 	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
     { MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("firefox -private-window") },
+
+    { MODKEY|ShiftMask,             XK_l,      spawn,          SHCMD("slock") },
+    { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("scrot") },
 
 	{ MODKEY,                       XK_p,      spawn,          SHCMD("pcmanfm") },
 	{ MODKEY,                       XK_f,      togglefullscr,  {0} },
