@@ -72,7 +72,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 //static const char *dmenucmd[] = { "rofi", "-show", "run", "-theme", "super-dark"};
-static const char *termcmd[]  = { "alacritty" };
+static const char *termcmd[]  = { "st" };
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 
 static const char script_file[] = "echo lol &";
@@ -91,9 +91,13 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_m,      incnmaster,     {.i = +1 } },
     { MODKEY|ControlMask,           XK_m,      incnmaster,     {.i = -1 } },
     
-  	{ 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
-	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
-	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+  	{ 0,                            XF86XK_AudioLowerVolume,   spawn,   {.v = downvol } },
+	{ 0,                            XF86XK_AudioMute,          spawn,   {.v = mutevol } },
+	{ 0,                            XF86XK_AudioRaiseVolume,   spawn,   {.v = upvol   } },
+
+    { MODKEY,                       XK_o,      spawn,          SHCMD("cmus-remote -u") },
+    { MODKEY,                       XK_minus,  spawn,          SHCMD("cmus-remote -v -10%") },
+    { MODKEY,                       XK_equal,  spawn,          SHCMD("cmus-remote -v +10%") },
 
 	{ MODKEY,                       XK_g,	   togglegaps,	   {0} },
 
