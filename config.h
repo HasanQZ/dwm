@@ -34,7 +34,6 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { "#ffffff", "#2e2e2e", "#ffffff" },
 };
 
-// command to run on startup
 /* tagging */
 static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}; 
 
@@ -54,8 +53,8 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[T]",      tile },    /* first entry is default */
-	{ "[F]",      NULL },    /* no layout function means floating behavior */
+	{ "[]=",      tile },    /* first entry is default */
+	{ "><>",      NULL },    /* no layout function means floating behavior */
 };
 
 /* key definitions */

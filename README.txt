@@ -11,3 +11,5 @@ https://dwm.suckless.org/patches/actualfullscreen/
 https://dwm.suckless.org/patches/vanitygaps/
 
 https://dwm.suckless.org/patches/hide_vacant_tags/
+
+https://dwm.suckless.org/patches/centeredwindowname/
