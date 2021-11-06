@@ -96,6 +96,8 @@ static Key keys[] = {
     { MODKEY,                       XK_o,      spawn,          SHCMD("cmus-remote -u") },
     { MODKEY,                       XK_minus,  spawn,          SHCMD("cmus-remote -v -10%") },
     { MODKEY,                       XK_equal,  spawn,          SHCMD("cmus-remote -v +10%") },
+    { MODKEY|ShiftMask,             XK_minus,  spawn,          SHCMD("cmus-remote --prev") },
+    { MODKEY|ShiftMask,             XK_equal,  spawn,          SHCMD("cmus-remote --next") },
 
 	{ MODKEY,                       XK_g,	   togglegaps,	   {0} },
 
@@ -113,8 +115,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      zoom,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ControlMask,           XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY|ControlMask,           XK_f,      setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = -1 } },
