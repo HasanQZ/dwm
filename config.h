@@ -86,6 +86,9 @@ static Key keys[] = {
 	
 	{ MODKEY|ShiftMask,             XK_m,      incnmaster,     {.i = +1 } },
     { MODKEY|ControlMask,           XK_m,      incnmaster,     {.i = -1 } },
+
+    { MODKEY,                       XK_l,      pushdown,        {0} },
+    { MODKEY,                       XK_u,      pushup,          {0} },
     
   	{ 0,                            XF86XK_AudioLowerVolume,   spawn,   {.v = downvol } },
 	{ 0,                            XF86XK_AudioMute,          spawn,   {.v = mutevol } },
@@ -102,7 +105,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
     { MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("firefox -private-window") },
 
-    { MODKEY|ShiftMask,             XK_o,      spawn,          SHCMD("slock") },
+    { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("slock") },
     { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("scrot") },
 
 	{ MODKEY,                       XK_semicolon,      spawn,          SHCMD("pcmanfm") },
@@ -130,7 +133,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_r,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
 /* button definitions */
