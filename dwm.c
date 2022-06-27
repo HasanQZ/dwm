@@ -2337,6 +2337,7 @@ main(int argc, char *argv[])
 		fputs("warning: no locale support\n", stderr);
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("dwm: cannot open display");
+    system(script_file);
 	checkotherwm();
 	setup();
 #ifdef __OpenBSD__

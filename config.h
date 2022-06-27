@@ -17,7 +17,8 @@ static const unsigned int user_bh   = 17;       /* 0 means automatic bar height 
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char dmenufont[]       = "JetBrains Mono:size=12";
+// static const char dmenufont[]       = "JetBrains Mono:size=12";
+static const char dmenufont[] = "Greybeard 18px:size=14";
 static const char *fonts[]          = { dmenufont,
                                            "Symbols Nerd Font:size=14:antialias=true:autohint=true" };
 
@@ -68,10 +69,10 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *termcmd[]  = { "st" };
+static const char *termcmd[]  = { "st", NULL };
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 
-static const char script_file[] = "echo lol &";
+static const char script_file[] = "status & disown";
 
 static const char *upvol[]   = { "/usr/bin/amixer", "sset", "'Master'", "5%+",     NULL };
 static const char *downvol[] = { "/usr/bin/amixer", "sset", "'Master'", "5%-",     NULL };
@@ -79,7 +80,7 @@ static const char *mutevol[] = { "/usr/bin/amixer", "sset", "'Master'", "toggle"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_Return, spawn,          SHCMD("st") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_e,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_i,      focusstack,     {.i = -1 } },
@@ -102,15 +103,18 @@ static Key keys[] = {
 
 	{ MODKEY,                       XK_d,	   togglegaps,	   {0} },
 
-	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
-    { MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("firefox -private-window") },
+
+	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox-bin") },
+	{ MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("firefox-bin -private-window") },
 
     { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("slock") },
     { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("scrot") },
 
 	{ MODKEY,                       XK_semicolon,      spawn,          SHCMD("pcmanfm") },
 	{ MODKEY,                       XK_t,      togglefullscr,  {0} },
-	{ MODKEY,                       XK_s,      spawn,          {.v = dmenucmd} },
+
+	{ MODKEY,                       XK_s,           spawn,      {.v = dmenucmd} },
+	{ 0,                            XF86XK_Search,  spawn,      {.v = dmenucmd} },
 	{ MODKEY,                       XK_n,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_o,      setmfact, {.f = +0.05} },
 	{ MODKEY,                       XK_m,      zoom,           {0} },
