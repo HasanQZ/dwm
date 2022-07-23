@@ -17,8 +17,7 @@ static const unsigned int user_bh   = 17;       /* 0 means automatic bar height 
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-// static const char dmenufont[]       = "JetBrains Mono:size=12";
-static const char dmenufont[] = "Greybeard 18px:size=14";
+static const char dmenufont[]       = "JetBrains Mono:size=12";
 static const char *fonts[]          = { dmenufont,
                                            "Symbols Nerd Font:size=14:antialias=true:autohint=true" };
 
@@ -27,14 +26,27 @@ static const char col_gray2[]       = "#000000";
 static const char col_gray3[]       = "#ffffff";
 static const char col_gray4[]       = "#ffffff";
 static const char col_cyan[]        = "#d3d3d3";
+
+static const char s_base03[]        = "#002b36";
+static const char s_base02[]        = "#073642";
+static const char s_base01[]        = "#586e75";
+static const char s_base00[]        = "#657b83";
+static const char s_base0[]         = "#839496";
+static const char s_base1[]         = "#93a1a1";
+static const char s_base2[]         = "#eee8d5";
+static const char s_base3[]         = "#fdf6e3";
+
+
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { "#ffffff", "#000000", "#2e2e2e" }, 
-	[SchemeSel]  = { "#ffffff", "#2e2e2e", "#ffffff" },
+	//[SchemeNorm] = { "#ffffff", "#000000", "#2e2e2e" },
+	//[SchemeSel]  = { "#ffffff", "#2e2e2e", "#ffffff" },
+	[SchemeNorm] = { s_base0, s_base03, "#000000" },
+	[SchemeSel]  = { s_base0, s_base02, s_base2 },
 };
 
 /* tagging */
-static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}; 
+static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -69,8 +81,9 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *termcmd[]  = { "st", NULL };
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *termcmd[]  = { "st" };
+// static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-p", "λ:", "-nb", "#073642", "-nf", "#93a1a1", "-sb", "#002b36", "-sf", "#859900", NULL };
 
 static const char script_file[] = "status & disown";
 
@@ -80,17 +93,18 @@ static const char *mutevol[] = { "/usr/bin/amixer", "sset", "'Master'", "toggle"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_Return, spawn,          SHCMD("st") },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          SHCMD("tabbed -c -r 2 st -w \"\"") },
+	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_e,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_i,      focusstack,     {.i = -1 } },
-	
+
 	{ MODKEY|ShiftMask,             XK_m,      incnmaster,     {.i = +1 } },
     { MODKEY|ControlMask,           XK_m,      incnmaster,     {.i = -1 } },
 
     { MODKEY,                       XK_l,      pushdown,        {0} },
     { MODKEY,                       XK_u,      pushup,          {0} },
-    
+
   	{ 0,                            XF86XK_AudioLowerVolume,   spawn,   {.v = downvol } },
 	{ 0,                            XF86XK_AudioMute,          spawn,   {.v = mutevol } },
 	{ 0,                            XF86XK_AudioRaiseVolume,   spawn,   {.v = upvol   } },
