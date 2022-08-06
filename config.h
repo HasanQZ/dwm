@@ -85,7 +85,7 @@ static const char *termcmd[]  = { "st" };
 // static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-p", "λ:", "-nb", "#073642", "-nf", "#93a1a1", "-sb", "#002b36", "-sf", "#859900", NULL };
 
-static const char script_file[] = "status & disown";
+static const char script_file[] = "dblocks & disown";
 
 static const char *upvol[]   = { "/usr/bin/amixer", "sset", "'Master'", "5%+",     NULL };
 static const char *downvol[] = { "/usr/bin/amixer", "sset", "'Master'", "5%-",     NULL };
@@ -134,7 +134,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      zoom,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ControlMask,           XK_t,      setlayout,      {0} },
+	{ MODKEY|ControlMask,           XK_f,      setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_t,      togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
