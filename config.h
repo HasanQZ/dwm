@@ -3,11 +3,11 @@
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 
-static unsigned int enablegaps       = 0;
-static unsigned int gappih     = 30;       /* horiz inner gap between windows */
-static unsigned int gappiv     = 30;       /* vert inner gap between windows */
-static unsigned int gappoh     = 30;       /* horiz outer gap between windows and screen edge */
-static unsigned int gappov     = 30;       /* vert outer gap between windows and screen edge */
+static unsigned int enablegaps       = 1;
+static unsigned int gappih     = 20;       /* horiz inner gap between windows */
+static unsigned int gappiv     = 20;       /* vert inner gap between windows */
+static unsigned int gappoh     = 20;       /* horiz outer gap between windows and screen edge */
+static unsigned int gappov     = 20;       /* vert outer gap between windows and screen edge */
 static int smartgaps           = 0;        /* 1 means no outer gap when there is only one window */
 
 static const int vertpad             = 0;       /* vertical padding for bar */
@@ -20,6 +20,13 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char dmenufont[]       = "JetBrains Mono:size=12";
 static const char *fonts[]          = { dmenufont,
                                            "Symbols Nerd Font:size=14:antialias=true:autohint=true" };
+
+static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const int showsystray        = 1;        /* 0 means no systray */
+
 
 static const char col_gray1[]       = "#000000";
 static const char col_gray2[]       = "#000000";
@@ -39,10 +46,10 @@ static const char s_base3[]         = "#fdf6e3";
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	//[SchemeNorm] = { "#ffffff", "#000000", "#2e2e2e" },
-	//[SchemeSel]  = { "#ffffff", "#2e2e2e", "#ffffff" },
-	[SchemeNorm] = { s_base0, s_base03, "#000000" },
-	[SchemeSel]  = { s_base0, s_base02, s_base2 },
+	[SchemeNorm] = { "#ffffff", "#000000", "#2e2e2e" },
+	[SchemeSel]  = { "#ffffff", "#2e2e2e", "#ffffff" },
+//	[SchemeNorm] = { s_base0, s_base03, "#000000" },
+//	[SchemeSel]  = { s_base0, s_base02, s_base2 },
 };
 
 /* tagging */
@@ -55,12 +62,13 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            0,           -1 },
+        { "Shutter",  NULL,       NULL,       0,            1,           -1 }
 };
 
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -81,50 +89,72 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *termcmd[]  = { "st" };
+static const char *termcmd[]  = { "alacritty" };
 // static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-p", "λ:", "-nb", "#073642", "-nf", "#93a1a1", "-sb", "#002b36", "-sf", "#859900", NULL };
+//static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-m", dmenumon, "-p", "λ:", "-nb", "#073642", "-nf", "#93a1a1", "-sb", "#002b36", "-sf", "#859900", NULL };
+static const char *dmenucmd[] = { "rofi", "-monitor", "-4", "-show", "drun", NULL };
 
-static const char script_file[] = "dblocks & disown";
+/* Control Media Players */
+static const char player_name[] = "spotify";
 
 static const char *upvol[]   = { "/usr/bin/amixer", "sset", "'Master'", "5%+",     NULL };
 static const char *downvol[] = { "/usr/bin/amixer", "sset", "'Master'", "5%-",     NULL };
 static const char *mutevol[] = { "/usr/bin/amixer", "sset", "'Master'", "toggle",  NULL };
 
+static const char *player_upvol[]   = { "playerctl", "-p", player_name, "volume", "0.05+", NULL };
+static const char *player_downvol[] = { "playerctl", "-p", player_name, "volume", "0.05-", NULL };
+/* no player mute toggle (why would you want to leave music playing muted anyways?) */
+static const char *player_playpause[] = { "playerctl", "-p", player_name, "play-pause", NULL };
+
+static const char *medplaypausecmd[] = { "playerctl", "play-pause", NULL };
+static const char *mednextcmd[] = { "playerctl", "-p", player_name, "next", NULL };
+static const char *medprevcmd[] = { "playerctl", "-p", player_name, "previous", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          SHCMD("tabbed -c -r 2 st -w \"\"") },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_e,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_i,      focusstack,     {.i = -1 } },
 
 	{ MODKEY|ShiftMask,             XK_m,      incnmaster,     {.i = +1 } },
-    { MODKEY|ControlMask,           XK_m,      incnmaster,     {.i = -1 } },
+        { MODKEY|ControlMask,           XK_m,      incnmaster,     {.i = -1 } },
 
-    { MODKEY,                       XK_l,      pushdown,        {0} },
-    { MODKEY,                       XK_u,      pushup,          {0} },
+        { MODKEY,                       XK_l,      pushdown,        {0} },
+        { MODKEY,                       XK_u,      pushup,          {0} },
 
   	{ 0,                            XF86XK_AudioLowerVolume,   spawn,   {.v = downvol } },
 	{ 0,                            XF86XK_AudioMute,          spawn,   {.v = mutevol } },
 	{ 0,                            XF86XK_AudioRaiseVolume,   spawn,   {.v = upvol   } },
 
-    { MODKEY,                       XK_y,      spawn,          SHCMD("cmus-remote -u") },
-    { MODKEY,                       XK_minus,  spawn,          SHCMD("cmus-remote -v -10%") },
-    { MODKEY,                       XK_equal,  spawn,          SHCMD("cmus-remote -v +10%") },
-    { MODKEY|ShiftMask,             XK_minus,  spawn,          SHCMD("cmus-remote --prev") },
-    { MODKEY|ShiftMask,             XK_equal,  spawn,          SHCMD("cmus-remote --next") },
+  	{ ShiftMask,                    XF86XK_AudioLowerVolume,   spawn,   {.v = player_downvol } },
+	{ ShiftMask,                    XF86XK_AudioMute,          spawn,   {.v = player_playpause } },
+	{ ShiftMask,                    XF86XK_AudioRaiseVolume,   spawn,   {.v = player_upvol   } },
+        { ShiftMask,                    XF86XK_AudioPlay,          spawn,   {.v = player_playpause} },
+
+        { 0,                            XF86XK_AudioPlay,          spawn,   {.v = medplaypausecmd } },
+        { 0,                            XF86XK_AudioNext,          spawn,   {.v = mednextcmd } },
+        { 0,                            XF86XK_AudioPrev,          spawn,   {.v = medprevcmd } },
+
+        /*
+        { MODKEY,                       XK_y,      spawn,          SHCMD("cmus-remote -u") },
+        { MODKEY,                       XK_minus,  spawn,          SHCMD("cmus-remote -v -10%") },
+        { MODKEY,                       XK_equal,  spawn,          SHCMD("cmus-remote -v +10%") },
+        { MODKEY|ShiftMask,             XK_minus,  spawn,          SHCMD("cmus-remote --prev") },
+        { MODKEY|ShiftMask,             XK_equal,  spawn,          SHCMD("cmus-remote --next") },
+        */
 
 	{ MODKEY,                       XK_d,	   togglegaps,	   {0} },
 
 
-	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox-bin") },
-	{ MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("firefox-bin -private-window") },
+	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
+	{ MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("firefox -private-window") },
 
-    { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("slock") },
-    { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("scrot") },
+        { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("slock") },
+        { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("shutter") },
+        { 0,                            XK_Print,  spawn,          SHCMD("shutter") },
 
-	{ MODKEY,                       XK_semicolon,      spawn,          SHCMD("pcmanfm") },
+	{ MODKEY,                       XK_semicolon,      spawn,          SHCMD("thunar") },
 	{ MODKEY,                       XK_t,      togglefullscr,  {0} },
 
 	{ MODKEY,                       XK_s,           spawn,      {.v = dmenucmd} },
